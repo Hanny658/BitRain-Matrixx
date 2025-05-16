@@ -14,6 +14,8 @@ A lightweight, **zero-dependency**, native Web Component that renders an animate
 |---------------|-----------------|
 | Density: Very High (10) | Density: Low (3) |
 | ![Up](images/up.png) | ![Down](images/down.png) |
+| BitsColor: blue | BitsColor: magenta |
+| ![Up](images/up_blue.png) | ![Down](images/down_magenta.png) |
 
 > *Both screenshots captured using the `<matrixx-canvas>` component with different `direction` n `density` attributes.*
 
@@ -75,10 +77,10 @@ Or use it directly via CDN:
 
 | Attribute   | Type               | Default | Description                                                                                               |
 | ----------- | ------------------ | ------- | --------------------------------------------------------------------------------------------------------- |
-| `density`   | `float`            | `0.5`   | Controls how many columns to render. Recommended: 0 \~ 10.                                                |
-| `limit`     | `bool`             | `true`  | If `true`, restricts saver density within 0\~10. If `false`, higher values allowed, but may affect performance. |
+| `density`   | `float`            | `4.0`   | Controls how many columns to render. Recommended: 0 \~ 10.                                                |
 | `direction` | `"up"` \| `"down"` | `"up"`  | Direction of animation.                                                                                   |
-| `debug`     | `bool`             | `false` | Optional flag to print debug logs in console.                                                             |
+| `bits-color` | `string`          | `#00ff00` | This optional flag affests what color will the bits be using, is not passed-in, it will be code-ish lime green. |
+| `limit`     | `bool`             | `true`  | If `true`, restricts saver density within 0\~10. If `false`, higher values allowed, but may affect performance. |
 
 ---
 
@@ -125,7 +127,7 @@ npx http-server .
 
 ## 📄 License
 
-Apache2.0 License © 2025 Hanny Zhang
+Apache-2.0 License © 2025 Hanny Zhang
 
 ---
 

@@ -2,7 +2,7 @@
  * <matrixx-canvas> Web Component
  *
  * Props:
- *  - density: float (0 ~ 10, controls how many columns to render)
+ *  - density: FLOAT (0 ~ 10, controls how many columns to render)
  *  - limit: boolean (optional, default true). If limit is false, density can be over any range, but result not garanteed.
  *  - direction: "up" | "down" (default: "up")
  *
@@ -30,6 +30,7 @@ export class MatrixxCanvas extends HTMLElement {
         const limitAttr = this.getAttribute('limit');
         const directionAttr = this.getAttribute('direction') ?? 'up';
         const direction = directionAttr === 'down' ? 'down' : 'up';
+        const bitsColor = this.getAttribute('bits-color') ?? '#00ff00';
         const limit = isBooleanTrue(limitAttr);
         const densityAttr = this.getAttribute('density') ?? '4';
         let density = parseFloat(densityAttr.trim());
@@ -46,7 +47,7 @@ export class MatrixxCanvas extends HTMLElement {
         }
 
         const count = Math.floor(1 + density * 20);
-        if (count > 240) {
+        if (count > 320) {
             console.warn("Even Limit is false, but that'll be too much for your broser to render.");
         }
         const columns = Array.from({ length: count }, () => ({
@@ -57,7 +58,7 @@ export class MatrixxCanvas extends HTMLElement {
             blur: Math.random() * 2
         }));
 
-        this.render(columns, direction);
+        this.render(columns, direction, bitsColor);
     }
 
     private render(columns: {
@@ -67,7 +68,7 @@ export class MatrixxCanvas extends HTMLElement {
         fontSize: number;
         blur: number;
     }[],
-        direction: string
+        direction: string, bitsColor: string
     ) {
         this.shadow.innerHTML = `
       <style>
@@ -90,6 +91,7 @@ export class MatrixxCanvas extends HTMLElement {
             font-size="${col.fontSize}"
             blur="${col.blur}"
             direction="${direction}"
+            bits-color="${bitsColor}"
           ></bit-rain-column>
         `).join('\n')}
     `;

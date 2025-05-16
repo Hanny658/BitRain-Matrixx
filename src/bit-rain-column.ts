@@ -27,11 +27,12 @@ export class BitRainColumn extends HTMLElement {
     const blur = Number(this.getAttribute('blur') ?? '0');
     const left = this.getAttribute('left') ?? '0px';
     const direction = this.getAttribute('direction') === 'down' ? 'down' : 'up';
+    const bitsColor = this.getAttribute('bits-color') ?? '#00ff00';
 
     const len = Math.floor(Math.random() * 20) + 10;
     this.bits = Array.from({ length: len }, () => (Math.random() < 0.5 ? '0' : '1'));
 
-    this.render(left, duration, delay, fontSize, blur, direction);
+    this.render(left, duration, delay, fontSize, blur, direction, bitsColor);
     this.startUpdatingBits();
   }
 
@@ -50,7 +51,7 @@ export class BitRainColumn extends HTMLElement {
     }, 200);
   }
 
-  private render(left: string, duration: number, delay: number, fontSize: number, blur: number, direction: string) {
+  private render(left: string, duration: number, delay: number, fontSize: number, blur: number, direction: string, bitsColor: string) {
     const keyframe = direction === 'down' ? 'move-down' : 'move-up';
     this.shadow.innerHTML = `
       <style>
@@ -64,7 +65,7 @@ export class BitRainColumn extends HTMLElement {
           filter: blur(${blur}px);
           font-family: monospace;
           line-height: 1.1;
-          color: #00ff00;
+          color: ${bitsColor || '#00ff00'};
           display: flex;
           flex-direction: column;
         }
