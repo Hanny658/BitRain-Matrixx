@@ -1,0 +1,24 @@
+{
+  "name": "bitrain-matrixx",
+  "version": "1.0.0",
+  "description": "A zero-dependency npm package that reders a bitrain effect (Like the Matrix) on the back of your webpage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hanny658/BitRain-Matrixx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Hanny658/BitRain-Matrixx/issues"
+  },
+  "homepage": "https://github.com/Hanny658/BitRain-Matrixx#readme",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
