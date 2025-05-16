@@ -1,6 +1,6 @@
 {
   "name": "bitrain-matrixx",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A zero-dependency npm package that reders a bitrain effect (Like the Matrix) on the back of your webpage",
   "main": "index.js",
   "scripts": {
