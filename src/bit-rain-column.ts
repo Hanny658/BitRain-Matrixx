@@ -1,3 +1,15 @@
+/**
+ * <bit-rain-column> Web Component
+ *
+ * Props:
+ *  - left: string (e.g., "20vw")
+ *  - duration: number (animation duration in seconds)
+ *  - delay: number (animation delay in seconds)
+ *  - font-size: number (font size in px)
+ *  - blur: number (blur level in px)
+ *  - direction: "up" | "down" (default: "up")
+ */
+
 export class BitRainColumn extends HTMLElement {
   private bits: string[] = [];
   private intervalId?: number;
@@ -14,11 +26,12 @@ export class BitRainColumn extends HTMLElement {
     const fontSize = Number(this.getAttribute('font-size') ?? '14');
     const blur = Number(this.getAttribute('blur') ?? '0');
     const left = this.getAttribute('left') ?? '0px';
+    const direction = this.getAttribute('direction') === 'down' ? 'down' : 'up';
 
     const len = Math.floor(Math.random() * 20) + 10;
     this.bits = Array.from({ length: len }, () => (Math.random() < 0.5 ? '0' : '1'));
 
-    this.render(left, duration, delay, fontSize, blur);
+    this.render(left, duration, delay, fontSize, blur, direction);
     this.startUpdatingBits();
   }
 
@@ -37,14 +50,15 @@ export class BitRainColumn extends HTMLElement {
     }, 200);
   }
 
-  private render(left: string, duration: number, delay: number, fontSize: number, blur: number) {
+  private render(left: string, duration: number, delay: number, fontSize: number, blur: number, direction: string) {
+    const keyframe = direction === 'down' ? 'move-down' : 'move-up';
     this.shadow.innerHTML = `
       <style>
         :host {
           position: absolute;
-          bottom: 0;
+          ${direction === 'down' ? 'top: 0;' : 'bottom: 0;'};
           left: ${left};
-          animation: move-up ${duration}s linear infinite;
+          animation: ${keyframe} ${duration}s linear infinite;
           animation-delay: -${delay}s;
           font-size: ${fontSize}px;
           filter: blur(${blur}px);
@@ -56,12 +70,13 @@ export class BitRainColumn extends HTMLElement {
         }
 
         @keyframes move-up {
-          0% {
-            transform: translateY(100%);
-          }
-          100% {
-            transform: translateY(-100%);
-          }
+          0% { transform: translateY(100%); }
+          100% { transform: translateY(-100%); }
+        }
+
+        @keyframes move-down {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
         }
       </style>
       ${this.bits.map(bit => `<span class="bit">${bit}</span>`).join('')}

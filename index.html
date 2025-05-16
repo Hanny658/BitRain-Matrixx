@@ -5,18 +5,18 @@
     <meta charset="UTF-8" />
     <title>Bit Rain Canvas Testin'</title>
     <script type="module">
-        import './src/BitRainColumn.js';
-        import './src/MatrixxCanvas.js';
+        import './dist/bit-rain-column.js';
+        import './dist/matrixx-canvas.js';
     </script>
 </head>
 
 <body style="margin:0; background:black;">
     <!-- Rain background -->
-    <bit-rain-canvas density="0.7" limit="true" />
+    <matrixx-canvas density="3" direction="down" limit="true"></matrixx-canvas>
 
     <!-- Some foreground content -->
-    <div style="position: relative; z-index: 10; color: white; text-align: center; padding-top: 20vh; font-size: 2rem;">
-        Hello in the Matrixx
+    <div style="position: relative; color: white; text-align: center; padding-top: 20vh; font-size: 2rem;">
+        G'Day in the Matrixx Rain
     </div>
 </body>
 
