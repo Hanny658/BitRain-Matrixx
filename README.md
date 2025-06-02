@@ -29,12 +29,6 @@ You can install it via npm:
 npm install matrixx-canvas
 ````
 
-Or use it directly via CDN:
-
-```html
-<script type="module" src="https://unpkg.com/matrixx-canvas"></script>
-```
-
 ---
 
 ## 🚀 Usage

@@ -5,7 +5,7 @@ function App() {
 
   return (
       <div style={{ background: "black", width: '100vw', height: '100vh' }}>
-        <matrixx-canvas density="1" direction="down" bits-color='red'></matrixx-canvas>
+        <matrixx-canvas density="2" direction="down"></matrixx-canvas>
 
         <div
           style={{
