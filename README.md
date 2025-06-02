@@ -4,7 +4,7 @@ A lightweight, **zero-dependency**, native Web Component that renders an animate
 
 > Includes:
 > - `<matrixx-canvas>` – manages the canvas and columns
-> - `<bit-rain-column>` – represents an individual animated column of binary bits
+> - `<bit-rain-column>` – represents an individual animated column of binary bits shifting between 0&1.
 
 ---
 
@@ -23,10 +23,10 @@ A lightweight, **zero-dependency**, native Web Component that renders an animate
 
 ## 📦 Installation
 
-You can install it via npm:
+Install it via npm:
 
 ```bash
-npm install matrixx-canvas
+npm install bitrain-matrixx
 ````
 
 ---
@@ -37,7 +37,7 @@ npm install matrixx-canvas
 
 ```html
 <script type="module">
-  import 'matrixx-canvas'; // If using a bundler or from dist
+  import 'bitrain-matrixx';
 </script>
 ```
 
@@ -91,14 +91,14 @@ export default function App() {
 ## 🧩 Custom Element Reference
 
 ### `<matrixx-canvas>`
-
+##### Attributes are all OPTIONAL, if you wish to have a kickstart, free to use a plain tag.
 | Attribute   | Type               | Default | Description                                                                                               |
 | ----------- | ------------------ | ------- | --------------------------------------------------------------------------------------------------------- |
 | `density`   | `float`            | `4.0`   | Controls how many columns to render. Recommended: 0 \~ 10.                                                |
 | `direction` | `"up"` \| `"down"` | `"up"`  | Direction of animation.                                                                                   |
 | `bits-color` | `string`          | `#00ff00` | This optional flag affests what color will the bits be using, is not passed-in, it will be code-ish lime green. |
 | `limit`     | `bool`             | `true`  | If `true`, restricts saver density within 0\~10. If `false`, higher values allowed, but may affect performance. |
-
+| `rain-display` | `"riverflow"` \| `"waterfall"` | `riverflow`  | "waterfall" display will let the bit rain drops fade out before getting out screen, "riverflow" will let all bit rain drops get through the whole screen. |
 ---
 
 ## 🛠 Technologies Used
