@@ -72,7 +72,7 @@ export class MatrixxCanvas extends HTMLElement {
           width: 100vw;
           height: 100vh;
           overflow: hidden;
-          z-index: 0;          /* sits on top of a black bg, but under any z-index>0 content */
+          z-index: 0; 
           pointer-events: none;
         }
       </style>

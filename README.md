@@ -119,9 +119,10 @@ src/
 └── matrixx-canvas.ts    # <matrixx-canvas> component
 
 dist/
-└── *.js                 # compiled JS output
+└── *.js                 # compiled JS output (for npm)
 
-index.html               # test/demo page
+index.html               # test/demo page html
+****_example/            # demo examples on different frameworks
 tsconfig.json
 package.json
 README.md
@@ -138,7 +139,7 @@ npx http-server .
 # Then open http://localhost:8080
 ```
 
-> You can also use Vite or any static dev server.
+> You can also use Vite or any static dev server to test.
 
 ---
 
@@ -150,4 +151,4 @@ Apache-2.0 License © 2025 Hanny Zhang
 
 ## 🙌 Acknowledgements
 
-Inspired by the iconic "Matrix" falling code effect. Built to be fast, flexible, and framework-free.
+Inspired by the iconic "Matrix" falling code effect. Built to be easy-to-use, flexible, and framework-free.

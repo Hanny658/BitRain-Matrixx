@@ -3,4 +3,6 @@ images/
 index.html
 tsconfig.json
 .vscode/
+.git/
 react_example
+favicon.ico

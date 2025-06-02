@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bitrain-matrixx": "file:../bitrain-matrixx-1.1.2.tgz",
+    "bitrain-matrixx": "^1.2.0",
     "my-app": "file:",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
