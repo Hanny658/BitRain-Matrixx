@@ -64,9 +64,32 @@ Or use it directly via CDN:
   <matrixx-canvas density="0.8" direction="up"></matrixx-canvas>
 
   <div style="position: relative; color: white; text-align: center; padding-top: 25vh;">
-    <h1>Hello, Matrix.</h1>
+    <h1>Hello, Matrixx.</h1>
   </div>
 </body>
+```
+
+### 4. Example with React
+
+```jsx
+import 'bitrain-matrixx';
+export default function App() {
+  return (
+      <div style={{ background: "black", width: '100vw', height: '100vh' }}>
+        <matrixx-canvas density="10" direction="down" bits-color='red' />
+        <div
+          style={{
+            position: "relative",
+            color: "white",
+            textAlign: "center",
+            paddingTop: "25vh",
+          }}
+        >
+          <h1>Hello, Matrixx.</h1>
+        </div>
+      </div>
+  )
+}
 ```
 
 ---

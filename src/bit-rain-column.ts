@@ -36,8 +36,8 @@ export class BitRainColumn extends HTMLElement {
     const len = Math.floor(Math.random() * 20) + 10;
     this.bits = Array.from({ length: len }, () => (Math.random() < 0.5 ? '0' : '1'));
 
-    // 3. Inject style + spans, but DO NOT set animation yet
-    //    We will add `animation: move-up` in the next frame once height is known.
+    // 3. Inject style + spans, but NOT seting animation yet
+    //    by adding `animation: move-up` in the next frame once height is known.
     const keyframe = (direction === 'down') ? 'move-down' : 'move-up';
 
     this.shadow.innerHTML = `
@@ -68,7 +68,7 @@ export class BitRainColumn extends HTMLElement {
       ${this.bits.map(bit => `<span class="bit">${bit}</span>`).join('')}
     `;
 
-    // 4. Wait for the browser to finish laying out <span>. Only then do we add "animation".
+    // 4. Wait for the browser to finish laying out <span>. Only then add "animation".
     requestAnimationFrame(() => {
       const styleElem = this.shadow.querySelector('style')!;
       styleElem.textContent += `
@@ -77,8 +77,8 @@ export class BitRainColumn extends HTMLElement {
           animation-delay: -${delay}s;
         }
       `;
-      // 5. Now that our spans exist and :host is sized (height = #bits * line-height * font-size),
-      //    we can safely start random bit-flips.
+      // 5. Now that spans exist and :host is sized (height = #bits * line-height * font-size),
+      //    safely start random bit-flips.
       this.startUpdatingBits();
     });
   }
@@ -100,5 +100,4 @@ export class BitRainColumn extends HTMLElement {
   }
 }
 
-// Register the tag name
 customElements.define('bit-rain-column', BitRainColumn);

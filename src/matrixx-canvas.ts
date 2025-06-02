@@ -1,6 +1,17 @@
-// src/matrixx-canvas.ts
-// Import the child first—so that <bit-rain-column> is known by the time
-// we do `this.shadow.innerHTML = '<bit-rain-column …></bit-rain-column>'`
+/**
+ * <matrixx-canvas> Web Component
+ *
+ * Props:
+ *  - density: FLOAT (0 ~ 10, controls how many columns to render)
+ *  - limit: boolean (optional, default true). If limit is false, density can be over any range, but result not garanteed.
+ *  - direction: "up" | "down" (default: "up")
+ *
+ * Description:
+ *  This component renders multiple <bit-rain-column> elements as animated binary rain.
+ *  It positions the canvas at a low z-index to appear behind most elements.
+ *  The columns are randomly spaced and animated.
+ */
+
 import './bit-rain-column';
 
 export class MatrixxCanvas extends HTMLElement {
@@ -44,7 +55,7 @@ export class MatrixxCanvas extends HTMLElement {
       blur:     Math.random() * 2
     }));
 
-    // Inject our parent container (100vw×100vh, fixed, z-index:-1)
+    // Inject parent container (full-screen, fixed, z-index:0)
     // plus all <bit-rain-column> tags. We do not attach animation here; each column delays its own.
     this.shadow.innerHTML = `
       <style>
@@ -55,7 +66,7 @@ export class MatrixxCanvas extends HTMLElement {
           width: 100vw;
           height: 100vh;
           overflow: hidden;
-          z-index: -1;
+          z-index: 0;
           pointer-events: none;
         }
       </style>
@@ -71,8 +82,6 @@ export class MatrixxCanvas extends HTMLElement {
         ></bit-rain-column>
       `).join('\n')}
     `;
-    // Note: We do NOT need an extra requestAnimationFrame here,
-    // because each <bit-rain-column> will wait for its own layout before animating.
   }
 }
 
