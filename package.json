@@ -4,7 +4,7 @@
   "description": "A zero-dependency npm package that reders a bitrain effect (Like the Matrix) on the back of your webpage",
   "main": "dist/matrixx-canvas.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
