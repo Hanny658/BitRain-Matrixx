@@ -3,8 +3,10 @@
   "version": "1.2.2",
   "description": "A zero-dependency npm package that reders a bitrain effect (Like the Matrix) on the back of your webpage",
   "main": "dist/matrixx-canvas.js",
+  "files": ["dist"],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "pack": "npm pack --pack-destination dist"
   },
   "repository": {
     "type": "git",
