@@ -141,7 +141,7 @@ dist/
 └── *.tgz                # packed npm package ready for install
 
 index.html               # test/demo page html
-****_example/            # demo examples on different frameworks
+examples/                 # demo examples on different frameworks
 tsconfig.json
 package.json
 README.md                # this doc
