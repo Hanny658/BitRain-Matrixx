@@ -1,9 +1,8 @@
 {
   "name": "bitrain-matrixx",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A zero-dependency library that renders a Matrix-style bit-rain effect on the page background.",
   "type": "module",
-
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -15,14 +14,11 @@
       "default": "./dist/index.js"
     }
   },
-
   "unpkg": "./dist/index.iife.js",
   "jsdelivr": "./dist/index.iife.js",
-
   "files": [
     "dist"
   ],
-
   "scripts": {
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
@@ -31,12 +27,10 @@
     "prepublishOnly": "npm run build",
     "pack": "npm pack --pack-destination dist"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hanny658/BitRain-Matrixx.git"
   },
-
   "keywords": [
     "canvas",
     "matrix",
@@ -45,24 +39,19 @@
     "web-component",
     "no-deps"
   ],
-
   "author": "Hanny Zhang",
   "license": "Apache-2.0",
-
   "bugs": {
     "url": "https://github.com/Hanny658/BitRain-Matrixx/issues"
   },
   "homepage": "https://github.com/Hanny658/BitRain-Matrixx#readme",
-
   "engines": {
     "node": ">=16"
   },
-
   "devDependencies": {
     "rimraf": "^6.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   },
-
   "dependencies": {}
 }
