@@ -14,10 +14,12 @@ A lightweight, **zero-dependency**, native Web Component that renders an animate
 |---------------|-----------------|
 | Density: Very High (10) | Density: Low (3) |
 | ![Up](images/up.png) | ![Down](images/down.png) |
-| BitsColor: blue | BitsColor: magenta |
+| Bits Color: blue | Bits Color: magenta |
 | ![Up](images/up_blue.png) | ![Down](images/down_magenta.png) |
+| Rain Display: charamask (Cell Size=32) | Rain Display: charamask (Default) |
+| ![Up](images/charmask-up.png) | ![Down](images/charmask-down.png) |
 
-> *Both screenshots captured using the `<matrixx-canvas>` component with different `direction` n `density` attributes.*
+> *Both screenshots captured using the `<matrixx-canvas>` component with different [Custom Attributes](#custom-element-reference).*
 
 ---
 
@@ -70,7 +72,17 @@ import 'bitrain-matrixx';
 export default function App() {
   return (
       <div style={{ background: "black", width: '100vw', height: '100vh' }}>
-        <matrixx-canvas density="10" direction="down" bits-color='red' />
+
+        <matrixx-canvas
+          rain-display="charamask"
+          direction="down"
+          density="6"
+          cell-size="16"
+          speed="20"
+          tail-min="4"
+          tail-max="12"
+        ></matrixx-canvas>
+
         <div
           style={{
             position: "relative",
@@ -91,14 +103,19 @@ export default function App() {
 ## 🧩 Custom Element Reference
 
 ### `<matrixx-canvas>`
-##### Attributes are all OPTIONAL, if you wish to have a kickstart, free to use a plain tag.
-| Attribute   | Type               | Default | Description                                                                                               |
-| ----------- | ------------------ | ------- | --------------------------------------------------------------------------------------------------------- |
-| `density`   | `float`            | `4.0`   | Controls how many columns to render. Recommended: 0 \~ 10.                                                |
-| `direction` | `"up"` \| `"down"` | `"up"`  | Direction of animation.                                                                                   |
-| `bits-color` | `string`          | `#00ff00` | This optional flag affests what color will the bits be using, is not passed-in, it will be code-ish lime green. |
-| `limit`     | `bool`             | `true`  | If `true`, restricts saver density within 0\~10. If `false`, higher values allowed, but may affect performance. |
-| `rain-display` | `"riverflow"` \| `"waterfall"` | `riverflow`  | "waterfall" display will let the bit rain drops fade out before getting out screen, "riverflow" will let all bit rain drops get through the whole screen. |
+##### Attributes are all OPTIONAL, if you wish to have a kickstart, feel free to use a plain tag.
+| Attribute       | Type               | Default   | Description                                                                                                                                      |
+| --------------- | ------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `density`       | `float`            | `4.0`     | Controls how many columns (or, in `charamask`, how many columns are likely to activate at once). Recommended: 1 ~ 10.                            |
+| `direction`     | `"up"` \| `"down"` | `"up"`    | Direction of animation. For `charamask`, defines whether streaks travel from bottom → top (`up`) or top → bottom (`down`).                       |
+| `bits-color`    | `string`           | `#00ff00` | Color used to render bits/characters. Defaults to lime-green.                                                                                    |
+| `limit`         | `bool`             | `true`    | If `true`, restricts density within 0 ~ 10. If `false`, higher values allowed (may affect performance).                                          |
+| `rain-display`  | `"riverflow"` \| `"waterfall"` \| `"charamask"` | `"riverflow"` | Selects the effect mode: <br>• **riverflow** – streams run continuously <br>• **waterfall** – drops fade before leaving screen <br>• **charamask** – lights up a fixed char grid with comet-like streaks |
+| `cell-size`     | `integer` (px)     | `18`      | **Charamask only.** Pixel size of each grid cell (controls font size and spacing of characters).                                                  |
+| `speed`         | `float` (cells/s)  | `22`      | **Charamask only.** Speed of streak heads, in grid cells per second.                                                                             |
+| `tail-min`      | `integer` (cells)  | `6`       | **Charamask only.** Minimum tail length for a streak (how many characters light up behind the head).                                             |
+| `tail-max`      | `integer` (cells)  | `18`      | **Charamask only.** Maximum tail length for a streak. Each streak chooses a random length between `tail-min` and `tail-max`.                      |
+
 ---
 
 ## 🛠 Technologies Used
@@ -117,15 +134,17 @@ export default function App() {
 src/
 ├── bit-rain-column.ts   # <bit-rain-column> component
 └── matrixx-canvas.ts    # <matrixx-canvas> component
+└── charamask-engine.ts  # render engine component for theme 'charamask'
 
 dist/
 └── *.js                 # compiled JS output (for npm)
+└── *.tgz                # packed npm package ready for install
 
 index.html               # test/demo page html
 ****_example/            # demo examples on different frameworks
 tsconfig.json
 package.json
-README.md
+README.md                # this doc
 ```
 
 ---
@@ -151,4 +170,4 @@ Apache-2.0 License © 2025 Hanny Zhang
 
 ## 🙌 Acknowledgements
 
-Inspired by the iconic "Matrix" falling code effect. Built to be easy-to-use, flexible, and framework-free.
+Inspired by the iconic "Matrix" falling code effect. Built to be easy-to-use, flexible, and framework-free. Hope this would boost your ideas to web!

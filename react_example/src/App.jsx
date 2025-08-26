@@ -8,8 +8,8 @@ function App() {
         <matrixx-canvas
           rain-display="charamask"
           direction="down"
-          density="1000"
-          cell-size="16"
+          density="6"
+          cell-size="18"
           speed="20"
           tail-min="4"
           tail-max="12"
