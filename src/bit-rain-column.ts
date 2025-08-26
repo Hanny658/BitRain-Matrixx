@@ -11,9 +11,12 @@
  *  - bits-color:   string   (CSS color for the bits, default: "#00ff00")
  *  - rain-display: "riverflow" | "waterfall"  (default: "riverflow")
  *
- *  • “riverflow”  ⇒ bits simply translate (no fade), then immediately reset.
- *  • “waterfall”  ⇒ bits translate and fade out at the very end of each cycle.
+ *  • "riverflow"  ⇒ bits simply translate (no fade), then immediately reset.
+ *  • "waterfall"  ⇒ bits translate and fade out at the very end of each cycle.
+ *  • "bitmask"  ⇒ bits translate and fade out at the very end of each cycle.
  */
+
+import { BitRainMode } from "./matrixx-canvas";
 
 export class BitRainColumn extends HTMLElement {
   private bits: string[] = [];
@@ -34,14 +37,14 @@ export class BitRainColumn extends HTMLElement {
     const left          = this.getAttribute('left')       ?? '0px';
     const dirAttr       = this.getAttribute('direction')  ?? 'up';
     const bitsColor     = this.getAttribute('bits-color') ?? '#00ff00';
-    const rainDisplay   = this.getAttribute('rain-display') ?? 'riverflow';
+    const rainDisplay   = this.getAttribute('rain-display') ?? 'riverflow' as BitRainMode;
 
     const duration  = Number(durationAttr);
     const delay     = Number(delayAttr);
     const fontSize  = Number(fontSizeAttr);
     const blur      = Number(blurAttr);
     const direction = (dirAttr === 'down') ? 'down' : 'up';
-    const displayMode = (rainDisplay === 'waterfall') ? 'waterfall' : 'riverflow';
+    const displayMode = rainDisplay as BitRainMode;
 
     // ─── 2. Generate random bits (array of "0"/"1") ─────────────────────────
     const len = Math.floor(Math.random() * 20) + 10;

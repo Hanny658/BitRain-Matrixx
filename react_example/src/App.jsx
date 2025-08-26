@@ -5,7 +5,15 @@ function App() {
 
   return (
       <div style={{ background: "black", width: '100vw', height: '100vh' }}>
-        <matrixx-canvas density="2" direction="down"></matrixx-canvas>
+        <matrixx-canvas
+          rain-display="charamask"
+          direction="down"
+          density="1000"
+          cell-size="16"
+          speed="20"
+          tail-min="4"
+          tail-max="12"
+        ></matrixx-canvas>
 
         <div
           style={{

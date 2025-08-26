@@ -15,9 +15,17 @@
  */
 
 import './bit-rain-column';
+import { CharamaskEngine, CharamaskOptions } from './charamask-engine';
+
+export type BitRainMode = "waterfall" | "riverflow" | "charamask";
 
 export class MatrixxCanvas extends HTMLElement {
   private shadow: ShadowRoot;
+  private chara?: CharamaskEngine;
+  static get observedAttributes() {
+    return ['density','limit','direction','bits-color','rain-display',
+            'cell-size','speed','tail-min','tail-max'];
+  }
 
   constructor() {
     super();
@@ -25,6 +33,57 @@ export class MatrixxCanvas extends HTMLElement {
   }
 
   connectedCallback() {
+    this.render();
+  }
+
+  attributeChangedCallback() {
+    // hot-update when possible
+    const mode = (this.getAttribute('rain-display') ?? 'riverflow') as BitRainMode;
+    if (mode === 'charamask' && this.chara) {
+      this.chara.setOptions(this.readCharamaskOptions());
+    } else {
+      // for DOM modes, a cheap rebuild is fine
+      this.render();
+    }
+  }
+
+  private render() {
+    const mode = (this.getAttribute('rain-display') ?? 'riverflow') as BitRainMode;
+
+    /** ==== For charamask theme ============================= */
+
+    if (mode === 'charamask') {
+      // clear existing DOM children (columns) if any
+      this.shadow.innerHTML = `
+        <style>
+          :host {
+            position: fixed; inset: 0;
+            width: 100vw; height: 100vh;
+            overflow: hidden; z-index: 0; pointer-events: none;
+          }
+          canvas { width: 100%; height: 100%; display:block; }
+        </style>
+        <canvas part="canvas"></canvas>
+      `;
+      const canvas = this.shadow.querySelector('canvas') as HTMLCanvasElement;
+      // start/update engine
+      if (!this.chara) {
+        this.chara = new CharamaskEngine(canvas, this.readCharamaskOptions());
+        this.chara.start();
+        // pause on hidden
+        document.addEventListener('visibilitychange', () => {
+          if (!this.chara) return;
+          if (document.hidden) this.chara.pause(); else this.chara.resume();
+        });
+      } else {
+        this.chara.attach(canvas);
+        this.chara.setOptions(this.readCharamaskOptions());
+      }
+      return;
+    }
+    
+    /** ==== For classic columns-based theme ============================= */
+
     // ─── 1. Read & normalize attributes ───────────────────────────────────
     const limitAttr     = this.getAttribute('limit');
     const directionAttr = this.getAttribute('direction');
@@ -33,7 +92,7 @@ export class MatrixxCanvas extends HTMLElement {
     const densityAttr   = this.getAttribute('density')    ?? '4';
 
     const direction = (directionAttr === 'down') ? 'down' : 'up';
-    const rainDisplay = (displayAttr === 'waterfall') ? 'waterfall' : 'riverflow';
+    const rainDisplay = displayAttr as BitRainMode;
     const limit = (limitAttr === null || limitAttr === 'true' || limitAttr === '1');
 
     let density = parseFloat(densityAttr.trim());
@@ -46,7 +105,7 @@ export class MatrixxCanvas extends HTMLElement {
       density = 4;
     }
 
-    // ─── 2. Compute how many columns we’ll spawn ───────────────────────────
+    // ─── 2. Compute how many columns spawn ───────────────────────────
     const count = Math.floor(1 + density * 20);
     if (!limit && count > 320) {
       console.warn(`[MatrixxCanvas] rain-display="riverflow", but ${count} columns may be too many for performance.`);
@@ -90,6 +149,24 @@ export class MatrixxCanvas extends HTMLElement {
         ></bit-rain-column>
       `).join('\n')}
     `;
+  }
+
+  private readCharamaskOptions(): CharamaskOptions {
+    const direction = (this.getAttribute('direction') === 'down') ? 'down' : 'up';
+    const color = this.getAttribute('bits-color') ?? '#00ff00';
+    const densityAttr = this.getAttribute('density') ?? '4';
+    let density = parseFloat(densityAttr);
+    if (isNaN(density)) density = 4;
+    const limitAttr = this.getAttribute('limit');
+    const limit = (limitAttr === null || limitAttr === 'true' || limitAttr === '1');
+    if (limit) density = Math.max(0, Math.min(10, density));
+
+    const cellSize = parseInt(this.getAttribute('cell-size') ?? '18', 10);
+    const speed = parseFloat(this.getAttribute('speed') ?? '22'); // cells/sec
+    const tailMin = parseInt(this.getAttribute('tail-min') ?? '6', 10);
+    const tailMax = parseInt(this.getAttribute('tail-max') ?? '18', 10);
+
+    return { direction, color, density, cellSize, speed, tailMin, tailMax };
   }
 }
 
