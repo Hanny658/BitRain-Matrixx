@@ -3,35 +3,32 @@
   "version": "2.1.1",
   "description": "A zero-dependency library that renders a Matrix-style bit-rain effect on the page background.",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/auto.js",
-      "require": "./dist/auto.cjs",
       "default": "./dist/auto.js"
     },
     "./core": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     }
   },
-  "unpkg": "./dist/index.iife.js",
-  "jsdelivr": "./dist/index.iife.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
-    "build:js": "tsup src/index.ts src/auto.ts --format esm,cjs,iife --global-name=BitRainMatrixx --sourcemap --minify --treeshake --target=es2018 --clean",
-    "build:types": "tsc -p tsconfig.build.json",
-    "build": "npm run build:js && npm run build:types",
-    "dev": "tsup src/index.ts src/auto.ts --format esm,cjs,iife --global-name=BitRainMatrixx --dts --sourcemap --watch",
+    "build:core:js": "tsup src/index.ts src/auto.ts --format esm --minify --treeshake --target=es2018 --sourcemap false --clean",
+    "build:core:types": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && npm run build:core:js && npm run build:core:types",
+    "build:cjs": "tsup src/index.ts src/auto.ts --format cjs --minify --treeshake --target=es2018 --sourcemap false",
+    "build:iife": "tsup src/index.ts --format iife --global-name=BitRainMatrixx --minify --treeshake --target=es2018 --sourcemap false",
     "prepublishOnly": "npm run build",
     "pack": "npm pack --pack-destination dist"
   },
