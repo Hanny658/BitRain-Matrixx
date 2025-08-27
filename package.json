@@ -1,6 +1,6 @@
 {
   "name": "bitrain-matrixx",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A zero-dependency library that renders a Matrix-style bit-rain effect on the page background.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -32,7 +32,6 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build": "npm run build:js && npm run build:types",
     "dev": "tsup src/index.ts src/auto.ts --format esm,cjs,iife --global-name=BitRainMatrixx --dts --sourcemap --watch",
-
     "prepublishOnly": "npm run build",
     "pack": "npm pack --pack-destination dist"
   },
