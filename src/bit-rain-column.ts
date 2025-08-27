@@ -1,4 +1,5 @@
 /**
+ * defineBitRainColumn(tag) function that constructs:
  * <bit-rain-column> Web Component
  *
  * Attributes:
@@ -18,40 +19,48 @@
 
 import { BitRainMode } from "./matrixx-canvas";
 
-export class BitRainColumn extends HTMLElement {
-  private bits: string[] = [];
-  private intervalId?: number;
-  private shadow: ShadowRoot;
+export function defineBitRainColumn(tag = 'bit-rain-column') {
+  // SSR guard: skip entirely on the server
+  if (typeof globalThis === 'undefined') return;
+  if (typeof (globalThis as any).HTMLElement === 'undefined') return;
+  if (typeof (globalThis as any).customElements === 'undefined') return;
 
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: 'open' });
-  }
+  if (customElements.get(tag)) return;
+  
+  class BitRainColumn extends HTMLElement {
+    private bits: string[] = [];
+    private intervalId?: number;
+    private shadow: ShadowRoot;
 
-  connectedCallback() {
-    // ─── 1. Read attributes & apply defaults ─────────────────────────────
-    const durationAttr  = this.getAttribute('duration')   ?? '10';
-    const delayAttr     = this.getAttribute('delay')      ?? '0';
-    const fontSizeAttr  = this.getAttribute('font-size')  ?? '14';
-    const blurAttr      = this.getAttribute('blur')       ?? '0';
-    const left          = this.getAttribute('left')       ?? '0px';
-    const dirAttr       = this.getAttribute('direction')  ?? 'up';
-    const bitsColor     = this.getAttribute('bits-color') ?? '#00ff00';
-    const rainDisplay   = this.getAttribute('rain-display') ?? 'riverflow' as BitRainMode;
+    constructor() {
+      super();
+      this.shadow = this.attachShadow({ mode: 'open' });
+    }
 
-    const duration  = Number(durationAttr);
-    const delay     = Number(delayAttr);
-    const fontSize  = Number(fontSizeAttr);
-    const blur      = Number(blurAttr);
-    const direction = (dirAttr === 'down') ? 'down' : 'up';
-    const displayMode = rainDisplay as BitRainMode;
+    connectedCallback() {
+      // ─── 1. Read attributes & apply defaults ─────────────────────────────
+      const durationAttr = this.getAttribute('duration') ?? '10';
+      const delayAttr = this.getAttribute('delay') ?? '0';
+      const fontSizeAttr = this.getAttribute('font-size') ?? '14';
+      const blurAttr = this.getAttribute('blur') ?? '0';
+      const left = this.getAttribute('left') ?? '0px';
+      const dirAttr = this.getAttribute('direction') ?? 'up';
+      const bitsColor = this.getAttribute('bits-color') ?? '#00ff00';
+      const rainDisplay = this.getAttribute('rain-display') ?? 'riverflow' as BitRainMode;
 
-    // ─── 2. Generate random bits (array of "0"/"1") ─────────────────────────
-    const len = Math.floor(Math.random() * 20) + 10;
-    this.bits = Array.from({ length: len }, () => (Math.random() < 0.5 ? '0' : '1'));
+      const duration = Number(durationAttr);
+      const delay = Number(delayAttr);
+      const fontSize = Number(fontSizeAttr);
+      const blur = Number(blurAttr);
+      const direction = (dirAttr === 'down') ? 'down' : 'up';
+      const displayMode = rainDisplay as BitRainMode;
 
-    // ─── 3. Build the initial <style> + <span class="bit">…</span> layout ──
-    this.shadow.innerHTML = `
+      // ─── 2. Generate random bits (array of "0"/"1") ─────────────────────────
+      const len = Math.floor(Math.random() * 20) + 10;
+      this.bits = Array.from({ length: len }, () => (Math.random() < 0.5 ? '0' : '1'));
+
+      // ─── 3. Build the initial <style> + <span class="bit">…</span> layout ──
+      this.shadow.innerHTML = `
       <style>
         :host {
           position: absolute;
@@ -91,47 +100,47 @@ export class BitRainColumn extends HTMLElement {
       ${this.bits.map(bit => `<span class="bit">${bit}</span>`).join('')}
     `;
 
-    // ─── 5. After first paint, actually set the animation on :host ────────
-    // Using requestAnimationFrame ensures the browser has computed the height of the spans.
-    requestAnimationFrame(() => {
-      // Choose which keyframe to use based on (direction, displayMode)
-      let keyframeName: string;
-      if (displayMode === 'waterfall') {
-        keyframeName = (direction === 'down') ? 'waterfall-down' : 'waterfall-up';
-      } else {
-        // “riverflow”
-        keyframeName = (direction === 'down') ? 'move-down' : 'move-up';
-      }
+      // ─── 5. After first paint, actually set the animation on :host ────────
+      // Using requestAnimationFrame ensures the browser has computed the height of the spans.
+      requestAnimationFrame(() => {
+        // Choose which keyframe to use based on (direction, displayMode)
+        let keyframeName: string;
+        if (displayMode === 'waterfall') {
+          keyframeName = (direction === 'down') ? 'waterfall-down' : 'waterfall-up';
+        } else {
+          // “riverflow”
+          keyframeName = (direction === 'down') ? 'move-down' : 'move-up';
+        }
 
-      // Append to the existing style block so we don't overwrite the keyframes themselves.
-      const styleElem = this.shadow.querySelector('style')!;
-      styleElem.textContent += `
+        // Append to the existing style block so we don't overwrite the keyframes themselves.
+        const styleElem = this.shadow.querySelector('style')!;
+        styleElem.textContent += `
         :host {
           animation: ${keyframeName} ${duration}s linear infinite;
           animation-delay: -${delay}s;
         }
       `;
 
-      // Start randomizing the bits once per 200ms
-      this.startUpdatingBits();
-    });
-  }
+        // Start randomizing the bits once per 200ms
+        this.startUpdatingBits();
+      });
+    }
 
-  disconnectedCallback() {
-    clearInterval(this.intervalId);
-  }
+    disconnectedCallback() {
+      clearInterval(this.intervalId);
+    }
 
-  private startUpdatingBits() {
-    this.intervalId = window.setInterval(() => {
-      const idx = Math.floor(Math.random() * this.bits.length);
-      this.bits[idx] = (Math.random() < 0.5 ? '0' : '1');
+    private startUpdatingBits() {
+      this.intervalId = window.setInterval(() => {
+        const idx = Math.floor(Math.random() * this.bits.length);
+        this.bits[idx] = (Math.random() < 0.5 ? '0' : '1');
 
-      const spanList = this.shadow.querySelectorAll<HTMLSpanElement>('.bit');
-      if (spanList[idx]) {
-        spanList[idx].textContent = this.bits[idx];
-      }
-    }, 200);
+        const spanList = this.shadow.querySelectorAll<HTMLSpanElement>('.bit');
+        if (spanList[idx]) {
+          spanList[idx].textContent = this.bits[idx];
+        }
+      }, 200);
+    }
   }
+  customElements.define(tag, BitRainColumn);
 }
-
-customElements.define('bit-rain-column', BitRainColumn);
