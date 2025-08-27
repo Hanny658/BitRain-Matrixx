@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "dist",
+        "stripInternal": false
+    },
+    "include": [
+        "src/index.ts",
+        "src/auto.ts",
+        "src/jsx-global.d.ts"
+    ]
+}

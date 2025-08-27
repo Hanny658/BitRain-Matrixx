@@ -4,5 +4,5 @@ index.html
 tsconfig.json
 .vscode/
 .git/
-react_example
+examples/
 favicon.ico

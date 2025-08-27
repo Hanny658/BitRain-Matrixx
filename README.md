@@ -138,10 +138,10 @@ src/
 
 dist/
 └── *.js                 # compiled JS output (for npm)
-└── *.tgz                # packed npm package ready for install
+└── *.tgz                # packed npm package ready for example installs
 
 index.html               # test/demo page html
-examples/                 # demo examples on different frameworks
+examples/                # demo examples on different frameworks
 tsconfig.json
 package.json
 README.md                # this doc
